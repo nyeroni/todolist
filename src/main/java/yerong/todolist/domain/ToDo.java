@@ -10,7 +10,7 @@ import static lombok.AccessLevel.PROTECTED;
 @AllArgsConstructor
 @NoArgsConstructor(access = PROTECTED)
 @Getter
-public class Todo {
+public class ToDo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,9 +20,19 @@ public class Todo {
     @Column(nullable = false)
     private String message;
 
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Status status;
+
     @Builder
-    private Todo(String message){
+    private ToDo(String message, Status status){
         this.message = message;
+        this.status = status;
+    }
+
+    public void setStatus(Status status){
+        this.status = status;
     }
 
 

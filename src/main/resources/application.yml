@@ -18,3 +18,5 @@ logging:
     org.hibernate.SQL: debug
     org.hibernate.type: trace
     org.springframework.security: info
+server:
+  port: 8083

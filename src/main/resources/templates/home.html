@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+    <title>home</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader" />
+
+    <div class="jumbotron">
+        <h1>To Do List</h1>
+        <form method="post" action="/addTodo">
+            <input type="text" name = "todo"/>
+            <input type = "submit" value="Add Todo" />
+        </form>
+        <hr>
+        <ul>
+            <li th:each="todo : ${toDos}">
+                <span th:text="${todo.message}"></span>
+            </li>
+        </ul>
+    </div>
+    <div th:replace="fragments/footer :: footer" />
+
+</div>
+</body>
+</html>

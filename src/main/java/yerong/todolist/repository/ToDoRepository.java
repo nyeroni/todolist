@@ -2,8 +2,8 @@ package yerong.todolist.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import yerong.todolist.domain.Todo;
+import yerong.todolist.domain.ToDo;
 
 @Repository
-public interface TodoRepository extends JpaRepository<Todo, Long> {
+public interface ToDoRepository extends JpaRepository<ToDo, Long> {
 }
