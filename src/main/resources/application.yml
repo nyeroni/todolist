@@ -12,7 +12,8 @@ spring:
     hibernate:
       ddl-auto: create
     database-platform: org.hibernate.dialect.MySQLDialect
-
+  messages:
+    basename: errors
 logging:
   level:
     org.hibernate.SQL: debug

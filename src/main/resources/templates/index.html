@@ -1,36 +1,42 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular.min.js"></script>
-    <link
-            rel="stylesheet"
-            href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-            integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-            crossorigin="anonymous"
-    />
+<div th:replace="~{fragments/header :: header}"></div>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular.min.js"></script>
+<link
+        rel="stylesheet"
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+        crossorigin="anonymous"
+/>
 
-    <style>
-        .app-container {
-            height: 100vh;
-            width: 100%;
-        }
-        .complete {
-            text-decoration: line-through;
-        }
-    </style>
+<style>
+    .app-container {
+        height: 100vh;
+        width: 100%;
+    }
+    .complete {
+        text-decoration: line-through;
+    }
+    .field-error {
+        border-color: #dc3545;
+        color: #dc3545;
+    }
+</style>
 </head>
 <body>
+<div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div>
+
 <div
         class="app-container d-flex align-items-center justify-content-center flex-column"
         ng-app="myApp"
-        ng-controller="myController"
->
+        ng-controller="myController">
     <h3>To Do List</h3>
     <div class="d-flex align-items-center mb-3" style="display: inline-block;">
         <form class="form-group mr-3 mb-0" th:action="@{/todo/addTodo}" th:object="${todo}" method="post">
             <div style="display: inline-block">
-                <input th:field="*{message}" type="text" class="form-control" style="vertical-align:middle" placeholder="할 일을 적어주세요"/>
+                <input name="message" type="text" class="form-control" style="vertical-align:middle" placeholder="할 일을 적어주세요"/>
+                <div th:if="${#fields.hasErrors('message')}" th:errors="*{message}" class="text-danger"></div>
             </div>
             <div style="display: inline-block">
                 <button type="submit" class="btn btn-primary mr-3">Save</button>
@@ -41,19 +47,22 @@
     <form>
         <hr> <b style="font-size: 18px">ToDo</b>
         <div th:each="todo: ${todoList}">
-            <div th:if="${todo.status} == UNFINISHED">
+            <div th:if="${#strings.equals(todo.status, 'UNFINISHED')}">
                 <span>[[${todo.message}]]</span> <br>
-                <div>
-                    <form th:action="@{/todo/{id}/update (id=${todo.id})}" method="post" style="display:inline-block;">
-                        <input type="submit" value="완료"></form>
-                    <form th:action="@{/todo/{id}/delete (id=${todo.id})}" method="post" style="display:inline-block;">
-                        <input type="submit" value="삭제"></form>
-                </div>
+                    <div>
+                        <form th:action="@{/todo/{id}/update (id=${todo.id})}" method="post" style="display:inline-block;">
+                            <input type="submit" value="완료">
+                        </form>
+                        <form th:action="@{/todo/{id}/delete (id=${todo.id})}" method="post" style="display:inline-block;">
+                            <input type="submit" value="삭제">
+                        </form>
+
+                    </div>
             </div>
         </div>
         <hr> <b style="font-size: 18px">Done</b>
         <div th:each="todo: ${todoList}">
-            <div th:if="${todo.status} == FINISH">
+            <div th:if="${#strings.equals(todo.status, 'FINISH')}">
                 <span>[[${todo.message}]]</span> <br>
                 <div>
                     <form th:action="@{/todo/{id}/update (id=${todo.id})}" method="post" style="display:inline-block;">
@@ -64,7 +73,16 @@
             </div>
         </div>
     </form>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
 
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+</div>
+</body>
 <script
         src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
         integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
@@ -80,5 +98,4 @@
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"
 ></script>
-</body>
 </html>
