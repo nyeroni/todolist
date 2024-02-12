@@ -10,6 +10,6 @@ public interface TodoService {
 
     List<ToDoResponseDto> getToDoList();
     boolean insertToDoList(ToDoRequestDto toDoRequestDto);
-    ToDoStatusResponseDto updateStatusToDoList(Long id);
+    boolean updateStatusToDoList(Long id);
     boolean deleteToDoList(Long id);
 }

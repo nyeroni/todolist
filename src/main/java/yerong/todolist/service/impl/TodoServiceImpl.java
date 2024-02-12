@@ -52,13 +52,15 @@ public class TodoServiceImpl implements TodoService {
 
     @Override
     @Transactional
-    public ToDoStatusResponseDto updateStatusToDoList(Long id) {
+    public boolean updateStatusToDoList(Long id) {
+
         ToDo toDo = toDoRepository.findById(id).orElseThrow();
-        return ToDoStatusResponseDto
-                .builder()
-                .id(toDo.getId())
-                .status(toDo.getStatus())
-                .build();
+        log.info("success!");
+        if(toDo!=null){
+            toDoRepository.finishUpdate(id);
+            return true;
+        }
+        return false;
     }
 
     @Override

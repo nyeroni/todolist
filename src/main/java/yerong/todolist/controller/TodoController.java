@@ -10,12 +10,9 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import yerong.todolist.domain.ToDo;
 import yerong.todolist.domain.dto.ToDoRequestDto;
 import yerong.todolist.domain.dto.ToDoResponseDto;
-import yerong.todolist.repository.ToDoRepository;
 import yerong.todolist.service.TodoService;
 
 import java.util.HashMap;
@@ -58,13 +55,21 @@ public class TodoController {
 
     @PostMapping("/todo/{id}/update")
     public String updateStatus(@PathVariable("id") Long id){
+        log.info("success update");
         todoService.updateStatusToDoList(id);
         return "redirect:/todo";
     }
-
     @PostMapping("/todo/{id}/delete")
     public String deleteTodo(@PathVariable("id") Long id){
+        log.info("success delete");
         todoService.deleteToDoList(id);
         return "redirect:/todo";
     }
+    @PostMapping("/todo/{id}/deletev2")
+    public String updateStatus2(@PathVariable("id") Long id){
+        log.info("success update2");
+        todoService.deleteToDoList(id);
+        return "redirect:/todo";
+    }
+
 }

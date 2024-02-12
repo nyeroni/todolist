@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-<div th:replace="~{fragments/header :: header}"></div>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular.min.js"></script>
-<link
-        rel="stylesheet"
-        href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-        crossorigin="anonymous"
-/>
+<head th:replace="fragments/header :: header">
+<!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular.min.js"></script>-->
+<!--<link-->
+<!--        rel="stylesheet"-->
+<!--        href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.2-dist/css/bootstrap.min.css"-->
+<!--        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"-->
+<!--        crossorigin="anonymous"-->
+<!--/>-->
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
 <style>
     .app-container {
@@ -22,80 +22,93 @@
         border-color: #dc3545;
         color: #dc3545;
     }
+
 </style>
 </head>
 <body>
-<div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div>
+<div class="container">
+    <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div>
 
-<div
-        class="app-container d-flex align-items-center justify-content-center flex-column"
-        ng-app="myApp"
-        ng-controller="myController">
-    <h3>To Do List</h3>
-    <div class="d-flex align-items-center mb-3" style="display: inline-block;">
-        <form class="form-group mr-3 mb-0" th:action="@{/todo/addTodo}" th:object="${todo}" method="post">
-            <div style="display: inline-block">
-                <input name="message" type="text" class="form-control" style="vertical-align:middle" placeholder="할 일을 적어주세요"/>
-                <div th:if="${#fields.hasErrors('message')}" th:errors="*{message}" class="text-danger"></div>
-            </div>
-            <div style="display: inline-block">
-                <button type="submit" class="btn btn-primary mr-3">Save</button>
-            </div>
-        </form>
+    <!--<div-->
+    <!--        class="app-container d-flex align-items-center justify-content-center flex-column"-->
+    <!--        ng-controller="myController">-->
+    <div class="jumbotron">
+        <h1>To Do List</h1>
+        <div class="d-flex align-items-center mb-3" style="display: inline-block;">
+            <form class="form-group mr-3 mb-0" th:action="@{/todo/addTodo}" th:object="${todo}" method="post">
+                <div style="display: inline-block">
+                    <input name="message" type="text" class="form-control" style="vertical-align:middle" placeholder="할 일을 적어주세요"/>
+                    <div th:if="${#fields.hasErrors('message')}" th:errors="*{message}" class="text-danger"></div>
+                </div>
+                <div style="display: inline-block">
+                    <button type="submit" class="btn btn-lg btn-secondary">Save</button>
+                </div>
+            </form>
+        </div>
     </div>
-
     <form>
         <hr> <b style="font-size: 18px">ToDo</b>
         <div th:each="todo: ${todoList}">
             <div th:if="${#strings.equals(todo.status, 'UNFINISHED')}">
-                <span>[[${todo.message}]]</span> <br>
-                    <div>
-                        <form th:action="@{/todo/{id}/update (id=${todo.id})}" method="post" style="display:inline-block;">
-                            <input type="submit" value="완료">
-                        </form>
-                        <form th:action="@{/todo/{id}/delete (id=${todo.id})}" method="post" style="display:inline-block;">
-                            <input type="submit" value="삭제">
-                        </form>
-
-                    </div>
+                <span th:text="${todo.message}"></span> <br>
+                <div>
+                    <form th:action="@{'/todo/' + ${todo.id} + '/update'}" method="post" style="display:inline-block;">
+                        <button type="submit" class="btn btn-primary ">done</button>
+                    </form>
+                </div>
+                <div>
+                    <form th:action="@{'/todo/' + ${todo.id} + '/update'}" method="post" style="display:inline-block;">
+                        <button type="submit" class="btn btn-primary ">done2</button>
+                    </form>
+                </div>
+                <div>
+                    <form th:action="@{'/todo/' + ${todo.id} + '/delete'}" method="post" style="display:inline-block;">
+                        <button type="submit" class="btn btn-danger ">delete</button>
+                    </form>
+                </div>
             </div>
         </div>
+
         <hr> <b style="font-size: 18px">Done</b>
         <div th:each="todo: ${todoList}">
             <div th:if="${#strings.equals(todo.status, 'FINISH')}">
-                <span>[[${todo.message}]]</span> <br>
+                <div>
+                    <span>[[${todo.message}]]</span> <br>
+
+                </div>
                 <div>
                     <form th:action="@{/todo/{id}/update (id=${todo.id})}" method="post" style="display:inline-block;">
-                        <input type="submit" value="취소"></form>
+                        <button type="submit" class="btn btn-primary mb-2">cancel</button>
+                    </form>
+                </div>
+                <div>
                     <form th:action="@{/todo/{id}/delete (id=${todo.id})}" method="post" style="display:inline-block;">
-                        <input type="submit" value="삭제"></form>
+                        <button type="submit" class="btn btn-danger mb-2">delete</button>
+                    </form>
                 </div>
             </div>
         </div>
     </form>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
+
 
     <div th:replace="~{fragments/footer :: footer}"></div>
 
-</div>
+    </div>
 </body>
-<script
-        src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-        crossorigin="anonymous"
-></script>
-<script
-        src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-        crossorigin="anonymous"
-></script>
-<script
-        src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-        crossorigin="anonymous"
-></script>
+
+<!--<script-->
+<!--        src="https://code.jquery.com/jquery-3.4.1.slim.min.js"-->
+<!--        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"-->
+<!--        crossorigin="anonymous"-->
+<!--&gt;</script>-->
+<!--<script-->
+<!--        src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"-->
+<!--        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"-->
+<!--        crossorigin="anonymous"-->
+<!--&gt;</script>-->
+<!--<script-->
+<!--        src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"-->
+<!--        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"-->
+<!--        crossorigin="anonymous"-->
+<!--&gt;</script>-->
 </html>
